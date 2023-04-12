@@ -1,7 +1,8 @@
-# This is just a simple python websocket application
+# This is just a simple websocket application using python (async)
 
 ### Its run socket server locally on port 8765 and listens to all incoming messages.
-Note: only server sees all messages. Clients connecting to separated channels (paths) and sees only messages in it.
+Note: only server sees all messages. Clients connecting to separated channels (paths) and see only messages in it.
+And there is no delivery status reports/responds (simple websocket app)
 
 ### Stack:
 - Python 3.7 (or above)

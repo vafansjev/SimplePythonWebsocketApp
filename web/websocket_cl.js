@@ -12,21 +12,21 @@ document.addEventListener('DOMContentLoaded', function (){
         const websocketClient = new WebSocket(serverUrl);
 
 
-    websocketClient.onopen = () => {
-        sendMessageButton.onclick = () => {
-            websocketClient.send(messageInput.value);
-            messageInput.value="";
+        websocketClient.onopen = () => {
+            sendMessageButton.onclick = () => {
+                websocketClient.send(messageInput.value);
+                messageInput.value="";
+            };
+
+
+        websocketClient.onmessage = (message) => {
+            const newMessage = document.createElement('div');
+            newMessage.innerHTML = message.data;
+            messagesContainer.appendChild(newMessage)
+
+            };
+
         };
-
-
-    websocketClient.onmessage = (message) => {
-      const newMessage = document.createElement('div');
-      newMessage.innerHTML = message.data;
-      messagesContainer.appendChild(newMessage)
-
-    };
-
-    };
 
     };
 

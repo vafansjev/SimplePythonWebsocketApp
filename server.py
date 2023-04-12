@@ -1,40 +1,49 @@
 import asyncio
 import websockets
 
-# Пустой словарь для изоляции каналов-получателей сообщения
+# Our websocket server port
+# If changed -> Don't forget to change it in Dockerfile (EXPOSE section) also if it needed
+WS_PORT = 8765
+
+# an empty dict that contains current connections
 server_connections = {}
 
 
 async def server(websocket, path):
-    """server, который получает на вход подключение и канал и удаляет вебсокет из словаря после отключения"""
+    """
+    Server itself. Gets connection and path (channel), add it to dict and delete when client disconnected
+    """
     async for message in websocket:
-        # Сообщение для отладки
+        # Just a console debug message
         print(f'User {websocket.remote_address} sends message: {message} to {path}')
 
-        # Если такого канала/пути не существует, то создать его
+        # If there is no existing path (channel) then create it
         if path not in server_connections:
             server_connections[path] = set()
 
-        # По имени канала добавить новый вебсокет (объект-подключение)
+        # Add new websocket connection using path
         server_connections[path].add(websocket)
 
-        # Переслать сообщение всем подключенным вебсокетам-получателям
+        # Send received message to all path listeners
         try:
             for conn in server_connections[path]:
                 await conn.send(message)
         except websockets.exceptions.ConnectionClosedOK:
             break
 
-    # Удалить текущий вебсокет из словаря на разрыве соединения
+    # Delete from dict when disconnected
     for connections in server_connections.values():
         connections.discard(websocket)
 
 
 async def main():
-    """main, который бесконечно ждет клиентов"""
-    async with websockets.serve(server, "0.0.0.0", 8765):
+    """
+    This is main that starting new websocket server and waiting for a new client
+    """
+    async with websockets.serve(server, "0.0.0.0", WS_PORT):
         print("WebSocket server started")
-        await asyncio.Future()  # run forever
+        # Run forever
+        await asyncio.Future()
 
 
 asyncio.run(main())
