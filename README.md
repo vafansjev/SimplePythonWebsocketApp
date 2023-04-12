@@ -1,8 +1,11 @@
 # This is just a simple websocket application using python (async)
 
 ### Its run socket server locally on port 8765 and listens to all incoming messages.
-Note: only server sees all messages. Clients connecting to separated channels (paths) and see only messages in it.
-And there is no delivery status reports/responds (simple websocket app)
+Note:
+- Only server sees all messages
+- Clients connecting to separated channels (paths) and see only messages in it.
+- There is no delivery status reports/responds (simple websocket app)
+- Server doesn't save any data (no DB, files or anything like this)
 
 ### Stack:
 - Python 3.7 (or above)
@@ -33,22 +36,21 @@ python3 server.py
 ```
 
 #### Run dockerized:
-Install docker and then use command (e.g. for run on port 8766):
-Build new docker image
+Install docker and then build new docker image
 ```
 docker build -t my-websocket-app .
 ```
 
-Run new container with port configuring
+Run new container with port configuring (e.g. local port 8766 and docker port 8765)
 ```
 docker run -p 8766:8765 my-websocket-app
 ```
 
-Server is ready to work on address ws://127.0.0.1:8766
+Server is ready to work "ws://127.0.0.1:8766"
 
-Now you can send some messages to different channels (paths) of your websocket server.
+Now you can send some messages to different channels (paths) of your local websocket server.
 For example, you can send messages to ws://127.0.0.1:8766/5/
-and all clients that use same ws address will see your message.
+and all clients that use same ws address (with patch "5/") will see your message.
 
 
 ## For testing:
