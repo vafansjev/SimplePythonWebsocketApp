@@ -40,7 +40,7 @@ async def main():
     """
     This is main that starting new websocket server and waiting for a new client
     """
-    async with websockets.serve(server, "0.0.0.0", WS_PORT):
+    async with websockets.serve(server, "0.0.0.0", WS_PORT, ping_interval=None):
         print("WebSocket server started")
         # Run forever
         await asyncio.Future()
