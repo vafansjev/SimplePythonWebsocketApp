@@ -26,4 +26,4 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true          
-          tags: ${{ secrets.DOCKER_USERNAME }}/simple-websocket-app:latest , ${{ secrets.DOCKER_USERNAME }}/simple-websocket-app:${{ steps.date.outputs.date }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/simple-websocket-app:latest
